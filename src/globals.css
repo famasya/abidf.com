@@ -1,17 +1,16 @@
 @import "tailwindcss";
-@import "@fontsource-variable/bricolage-grotesque";
-@import "@fontsource-variable/noto-sans-jp";
 
-:root {
-  --font-title: "Bricolage Grotesque Variable", sans-serif;
+@theme {
+  --font-title: "Bricolage Grotesque", sans-serif;
+  --font-sans: "Noto Sans", sans-serif;
 }
 
 .title {
-  font-family: var(--font-title);
+  @apply font-title;
 }
 
 body {
-  font-family: "Noto Sans JP Variable", sans-serif;
+  @apply font-sans;
 }
 
 body p {
@@ -28,23 +27,19 @@ p a {
 }
 
 .prose h1 {
-  font-family: var(--font-title);
-  @apply text-2xl font-semibold mt-6 border-b border-gray-200 hover:bg-gray-100;
+  @apply font-title text-2xl font-semibold mt-6 border-b border-gray-200 hover:bg-gray-100;
 }
 
 .prose h2 {
-  font-family: var(--font-title);
-  @apply text-xl font-semibold mt-6 border-b border-gray-200 hover:bg-gray-100;
+  @apply font-title text-xl font-semibold mt-6 border-b border-gray-200 hover:bg-gray-100;
 }
 
 .prose h3 {
-  font-family: var(--font-title);
-  @apply text-lg font-semibold mt-4;
+  @apply font-title text-lg font-semibold mt-4;
 }
 
 .prose h4 {
-  font-family: var(--font-title);
-  @apply text-base font-semibold mt-4;
+  @apply font-title text-base font-semibold mt-4;
 }
 
 .prose p {
