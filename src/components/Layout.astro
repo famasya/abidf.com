@@ -1,0 +1,53 @@
+---
+export interface Props {
+  title?: string;
+}
+
+const { title = "Abid Famasya" } = Astro.props;
+const { pathname } = Astro.url;
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/posts", label: "Blog" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="max-w-4xl mx-auto flex justify-between items-center mt-4">
+        <a href="/" class="text-xl title bg-amber-200 rounded-xl px-3"
+          >Abid Famasya</a
+        >
+        <div class="space-x-4" id="navigation">
+          {
+            links.map((link) => (
+              <a
+                href={link.href}
+                class="hover:underline"
+                aria-current={pathname === link.href ? "page" : undefined}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <main class="mt-4 max-w-4xl mx-auto">
+        <slot />
+      </main>
+
+      <footer class="mt-8"></footer>
+    </nav>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+---
+import Layout from "../../components/Layout.astro";
+import "../../globals.css";
+import type { PostItem } from "../posts.astro";
+
+export async function getStaticPaths() {
+  const posts = import.meta.glob("../../posts/*.md", { eager: true }) as Record<
+    string,
+    PostItem
+  >;
+  return Object.entries(posts).map(([file, post]) => {
+    // Extract slug from the file path
+    const slug = file.split("/").pop()?.replace(".md", "") || "";
+
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = post;
+
+// Format date function
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+---
+
+<Layout title={`${post.frontmatter.title} - Abid Famasya`}>
+  <article class="max-w-none">
+    <!-- Back to posts link -->
+    <div class="mb-6">
+      <a
+        href="/posts"
+        class="text-blue-600 hover:text-blue-800 text-sm font-medium bg-blue-100 px-2 py-1 rounded-xl"
+      >
+        ← Back to all posts
+      </a>
+    </div>
+
+    <!-- Post header -->
+    <header class="mb-6 pb-6 border-b border-gray-200">
+      <h1 class="text-3xl font-medium mb-4 leading-tight title">
+        {post.frontmatter.title}
+      </h1>
+
+      <div class="flex items-center space-x-4 text-sm text-gray-600 mb-4">
+        <time datetime={post.frontmatter.date}>
+          {formatDate(post.frontmatter.date)}
+        </time>
+      </div>
+
+      {
+        post.frontmatter.description && (
+          <p class="text-lg text-gray-700 leading-relaxed">
+            {post.frontmatter.description}
+          </p>
+        )
+      }
+    </header>
+
+    <!-- Post content -->
+    <div class="prose max-w-none">
+      <Content />
+    </div>
+
+    <!-- Post footer -->
+    <footer class="mt-12 pt-6 border-t border-gray-200">
+      <div class="flex justify-between items-center">
+        <a
+          href="/posts"
+          class="text-blue-600 hover:text-blue-800 font-medium bg-blue-100 px-2 py-1 rounded-xl"
+        >
+          ← Back to all posts
+        </a>
+
+        <div class="text-sm text-gray-500">
+          Published on {formatDate(post.frontmatter.date)}
+        </div>
+      </div>
+    </footer>
+  </article>
+</Layout>

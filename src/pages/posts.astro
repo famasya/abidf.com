@@ -1,0 +1,87 @@
+---
+import Layout from "../components/Layout.astro";
+import "../globals.css";
+
+export type PostItem = {
+  frontmatter: {
+    title: string;
+    date: string;
+    author: string;
+    description: string;
+  };
+  [key: string]: any;
+};
+
+const posts = import.meta.glob("../posts/*.md", { eager: true }) as Record<
+  string,
+  PostItem
+>;
+const postsWithSlugs = Object.entries(posts).map(([file, post]) => {
+  const slug = file.split("/").pop()?.replace(".md", "") || "";
+  return {
+    ...post,
+    slug,
+    url: `/posts/${slug}`,
+  };
+});
+
+const sortedPosts = postsWithSlugs.sort((a, b) => {
+  const dateA = new Date(a.frontmatter.date);
+  const dateB = new Date(b.frontmatter.date);
+  return dateB.getTime() - dateA.getTime();
+});
+
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+---
+
+<Layout title="Blog - Abid Famasya">
+  <div class="space-y-8">
+    <div class="space-y-6">
+      {
+        sortedPosts.map((post) => (
+          <article class="border-b border-gray-200 pb-6 last:border-b-0 post">
+            <div>
+              <h2 class="text-xl font-medium post-title title">
+                <a href={post.url}>{post.frontmatter.title}</a>
+              </h2>
+
+              <div class="flex items-center space-x-4 text-sm text-gray-500">
+                <time datetime={post.frontmatter.date}>
+                  {formatDate(post.frontmatter.date)}
+                </time>
+              </div>
+
+              <p class="text-gray-700 leading-relaxed">
+                {post.frontmatter.description}
+              </p>
+
+              <div class="pt-2">
+                <a
+                  href={post.url}
+                  class="text-blue-600 hover:text-blue-800 font-medium bg-blue-100 px-2 py-1 rounded-md text-sm"
+                >
+                  Read more →
+                </a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    {
+      sortedPosts.length === 0 && (
+        <div class="text-center py-12">
+          <p class="text-gray-500">No posts found.</p>
+        </div>
+      )
+    }
+  </div>
+</Layout>
