@@ -1,5 +1,10 @@
 ---
-import { AstroFont } from "astro-font";
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/inter";
+
+import bricolageGrotesque from "@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2?url";
+import inter from "@fontsource-variable/inter/files/inter-latin-standard-normal.woff2?url";
+
 import "../globals.css";
 export interface Props {
   title?: string;
@@ -7,6 +12,10 @@ export interface Props {
 
 const { title = "Abid Famasya" } = Astro.props;
 const { pathname } = Astro.url;
+
+// Normalize pathname for consistent comparison
+const normalizedPathname =
+  pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
 
 const links = [
   { href: "/", label: "Home" },
@@ -21,34 +30,19 @@ const links = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
-
-    <!-- Resource hints to reduce critical request chains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <AstroFont
-      config={[
-        {
-          src: [],
-          name: "Inter",
-          googleFontsURL:
-            "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-          preload: true,
-          display: "swap",
-          selector: "body",
-          fallback: "sans-serif",
-        },
-        {
-          src: [],
-          name: "Bricolage Grotesque",
-          googleFontsURL:
-            "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-          preload: true,
-          display: "swap",
-          selector: ".title",
-          fallback: "sans-serif",
-        },
-      ]}
+    <link
+      rel="preload"
+      href={bricolageGrotesque}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href={inter}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
     />
   </head>
   <body class="px-4">
@@ -66,7 +60,9 @@ const links = [
               <a
                 href={link.href}
                 class="hover:underline"
-                aria-current={pathname === link.href ? "page" : undefined}
+                aria-current={
+                  normalizedPathname === link.href ? "page" : undefined
+                }
               >
                 {link.label}
               </a>
