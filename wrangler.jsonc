@@ -1,0 +1,11 @@
+{
+  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+  "name": "abidf.com",
+  "compatibility_date": "2025-07-19",
+  "assets": {
+    "directory": "./dist"
+  },
+  "placement": {
+    "mode": "smart"
+  }
+}

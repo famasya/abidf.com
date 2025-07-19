@@ -20,14 +20,16 @@ const links = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="px-4">
     <!-- Navigation -->
     <nav>
-      <div class="max-w-4xl mx-auto flex justify-between items-center mt-4">
+      <div
+        class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center my-4"
+      >
         <a href="/" class="text-xl title bg-amber-200 rounded-xl px-3"
           >Abid Famasya</a
         >
-        <div class="space-x-4" id="navigation">
+        <div class="mt-4 md:m-0 space-x-4" id="navigation">
           {
             links.map((link) => (
               <a
