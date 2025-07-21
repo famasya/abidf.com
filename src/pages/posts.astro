@@ -6,7 +6,6 @@ export type PostItem = {
     title: string;
     date: string;
     author: string;
-    description: string;
   };
   [key: string]: any;
 };
@@ -41,7 +40,7 @@ function formatDate(dateString: string) {
 ---
 
 <Layout title="Blog - Abid Famasya">
-  <div class="space-y-8">
+  <div class="space-y-8 mt-12">
     <div class="space-y-6">
       {
         sortedPosts.map((post) => (
@@ -56,10 +55,6 @@ function formatDate(dateString: string) {
                   {formatDate(post.frontmatter.date)}
                 </time>
               </div>
-
-              <p class="text-gray-700 leading-relaxed">
-                {post.frontmatter.description}
-              </p>
 
               <div class="pt-2">
                 <a

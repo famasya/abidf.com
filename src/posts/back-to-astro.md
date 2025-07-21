@@ -2,7 +2,6 @@
 title: "Back to Astro"
 date: "2025-07-19"
 author: "Abid Famasya"
-description: "Ditching complexity, embracing simplicity for personal projects, Astro just feels right."
 ---
 
 After years of building with Next.js and React-based frameworks, I started to feel the weight of that complexity especially for something as personal (and should be simple) as a personal site.
